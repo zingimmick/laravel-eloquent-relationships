@@ -6,8 +6,8 @@ namespace Zing\LaravelEloquentRelationships\Tests\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Zing\LaravelEloquentRelationships\HasMoreRelationships;
 use Zing\LaravelEloquentRelationships\Relations\BelongsToOne;
-use Zing\LaravelEloquentRelationships\Relations\HasMoreRelationships;
 
 /**
  * @property string $name

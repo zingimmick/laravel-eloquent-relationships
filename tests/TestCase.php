@@ -55,6 +55,30 @@ class TestCase extends BaseTestCase
                 ->default('');
             $table->timestamps();
         });
+        Schema::create(
+            'images',
+            function (Blueprint $table): void {
+                $table->bigIncrements('id');
+                $table->string('url');
+                $table->timestamps();
+            }
+        );
+
+        Schema::create(
+            'model_has_images',
+            function (Blueprint $table): void {
+                $table->unsignedBigInteger('image_id');
+                $table->morphs('imageable');
+                $table->tinyInteger('priority')
+                    ->default(0);
+                $table->primary(['image_id', 'imageable_id', 'imageable_type']);
+
+                $table->foreign('image_id')
+                    ->references('id')
+                    ->on('images')
+                    ->onDelete('cascade');
+            }
+        );
     }
 
     protected function getEnvironmentSetUp($app): void
