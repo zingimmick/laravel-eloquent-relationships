@@ -6,6 +6,7 @@ namespace Zing\LaravelEloquentRelationships\Tests\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Zing\LaravelEloquentRelationships\HasMoreRelationships;
+use Zing\LaravelEloquentRelationships\Relations\MorphToOne;
 
 /**
  * @property string $url
@@ -21,12 +22,12 @@ class Image extends Model
      */
     protected $fillable = ['url'];
 
-    public function bestProduct(): \Zing\LaravelEloquentRelationships\Relations\MorphToOne
+    public function bestProduct(): MorphToOne
     {
         return $this->morphedByOne(Product::class, 'imageable', 'model_has_images');
     }
 
-    public function defaultProduct(): \Zing\LaravelEloquentRelationships\Relations\MorphToOne
+    public function defaultProduct(): MorphToOne
     {
         return $this->morphedByOne(Product::class, 'imageable', 'model_has_images')->withDefault([
             'name' => 'default name',

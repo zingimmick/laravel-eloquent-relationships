@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Zing\LaravelEloquentRelationships\Tests\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Zing\LaravelEloquentRelationships\HasMoreRelationships;
 use Zing\LaravelEloquentRelationships\Relations\BelongsToOne;
+use Zing\LaravelEloquentRelationships\Relations\MorphToOne;
 
 /**
  * @property string $name
@@ -30,19 +32,19 @@ class Product extends Model
             ->withPivot('status');
     }
 
-    public function images(): \Illuminate\Database\Eloquent\Relations\MorphToMany
+    public function images(): MorphToMany
     {
         return $this->morphToMany(Image::class, 'imageable', 'model_has_images');
     }
 
-    public function cover(): \Zing\LaravelEloquentRelationships\Relations\MorphToOne
+    public function cover(): MorphToOne
     {
         return $this->morphToOne(Image::class, 'imageable', 'model_has_images')->withDefault([
             'url' => 'https://example.com/default.png',
         ]);
     }
 
-    public function thumbnail(): \Zing\LaravelEloquentRelationships\Relations\MorphToOne
+    public function thumbnail(): MorphToOne
     {
         return $this->morphToOne(Image::class, 'imageable', 'model_has_images');
     }
