@@ -31,14 +31,14 @@ class Group extends Model
 
     public function leader(): BelongsToOne
     {
-        return $this->belongsToOne(User::class)->where('status', 1)->withPivot('status');
+        return $this->belongsToOne(User::class)->wherePivot('status', 1)->withPivot('status');
     }
 
     public function candidate(): BelongsToOne
     {
         return $this->belongsToOne(User::class)
             ->withPivot('status')
-            ->where('status', 0)
+            ->wherePivot('status', 0)
             ->withDefault(function (User $user, self $group): void {
                 $user->name = 'candidate leader for ' . $group->name;
             });

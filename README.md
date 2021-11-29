@@ -44,7 +44,7 @@ class Group extends Model
     public function leader(): BelongsToOne
     {
         return $this->belongsToOne(User::class)
-            ->wherePivot('status', true);
+            ->wherePivot('status', 1)
             ->withDefault(function (User $user, self $group): void {
                 $user->name = 'leader for ' . $group->name;
             });
