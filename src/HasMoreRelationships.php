@@ -276,6 +276,7 @@ trait HasMoreRelationships
      */
     protected function guessBelongsToOneRelation(): ?string
     {
+        /** @phpstan-var array{function: string}|null $caller */
         $caller = Arr::first(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS), function ($trace): bool {
             return ! in_array(
                 $trace['function'],
