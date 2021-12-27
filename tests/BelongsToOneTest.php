@@ -8,7 +8,10 @@ use Zing\LaravelEloquentRelationships\Tests\Models\Group;
 use Zing\LaravelEloquentRelationships\Tests\Models\Product;
 use Zing\LaravelEloquentRelationships\Tests\Models\User;
 
-class BelongsToOneTest extends TestCase
+/**
+ * @internal
+ */
+final class BelongsToOneTest extends TestCase
 {
     public function testEagerLoading(): void
     {

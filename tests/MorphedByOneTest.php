@@ -8,7 +8,10 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Zing\LaravelEloquentRelationships\Tests\Models\Image;
 use Zing\LaravelEloquentRelationships\Tests\Models\Product;
 
-class MorphedByOneTest extends TestCase
+/**
+ * @internal
+ */
+final class MorphedByOneTest extends TestCase
 {
     use WithFaker;
 
