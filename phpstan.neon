@@ -2,11 +2,10 @@ includes:
     - ./vendor/nunomaduro/larastan/extension.neon
 
 parameters:
-    level: max
+    level: 8
     paths:
-        - config
         - src
         - tests
     ignoreErrors:
-        - '#Class Skeleton not found.#'
-        - '#Parameter \#1 \$(.*?) of function forward_static_call expects callable\(\): mixed#'
+        - '#Cannot access property \$pivot on (.*?)#'
+        - '#Parameter \#1 \$(.*?) of function array_pop expects array, array<int, string>\|false given.#'
