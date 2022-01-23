@@ -50,7 +50,7 @@ class MorphToOne extends MorphToMany
         // children back to their parent using the dictionary and the keys on the
         // parent models. Then we should return these hydrated models back out.
         foreach ($models as $model) {
-            $key = $model->{$this->parentKey};
+            $key = $model->getAttribute($this->parentKey);
             if (isset($dictionary[$key])) {
                 $value = $dictionary[$key];
                 $model->setRelation($relation, reset($value));
