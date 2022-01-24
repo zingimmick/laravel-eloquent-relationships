@@ -29,6 +29,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             FinalizeClassesWithoutChildrenRector::class,
             RepeatedLiteralToClassConstantRector::class,
             PrivatizeLocalGetterToPropertyRector::class,
+            \Rector\CodingStyle\Rector\PostInc\PostIncDecToPreIncDecRector::class,
         ]
     );
     $parameters->set(

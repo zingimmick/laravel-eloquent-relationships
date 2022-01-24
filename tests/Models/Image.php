@@ -24,7 +24,7 @@ class Image extends Model
 
     public function bestProduct(): MorphToOne
     {
-        return $this->morphedByOne(Product::class, 'imageable', 'model_has_images');
+        return $this->morphedByOne(Product::class, 'imageable', 'model_has_images')->ofMany();
     }
 
     public function defaultProduct(): MorphToOne

@@ -4,18 +4,25 @@ declare(strict_types=1);
 
 namespace Zing\LaravelEloquentRelationships\Relations;
 
+use Illuminate\Contracts\Database\Eloquent\SupportsPartialRelations;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Concerns\CanBeOneOfMany;
+use Illuminate\Database\Eloquent\Relations\Concerns\ComparesRelatedModels;
 use Illuminate\Database\Eloquent\Relations\Concerns\SupportsDefaultModels;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Query\JoinClause;
 
 /**
  * @template TRelatedModel of \Illuminate\Database\Eloquent\Model
  * @extends \Illuminate\Database\Eloquent\Relations\MorphToMany<TRelatedModel>
  */
-class MorphToOne extends MorphToMany
+class MorphToOne extends MorphToMany implements SupportsPartialRelations
 {
     use SupportsDefaultModels;
+    use CanBeOneOfMany;
+    use ComparesRelatedModels;
 
     /**
      * Initialize the relation on a set of models.
@@ -80,5 +87,87 @@ class MorphToOne extends MorphToMany
     protected function newRelatedInstanceFor(Model $parent): Model
     {
         return $this->related->newInstance();
+    }
+
+    public function addConstraints(): void
+    {
+        if (! $this->isOneOfMany()) {
+            parent::addConstraints();
+        }
+
+        if (static::$constraints) {
+            $this->addWhereConstraints();
+        }
+    }
+
+    public function getRelationExistenceQuery(Builder $query, Builder $parentQuery, $columns = ['*']): Builder
+    {
+        if ($this->isOneOfMany()) {
+            $this->mergeOneOfManyJoinsTo($query);
+        }
+
+        return parent::getRelationExistenceQuery($query, $parentQuery, $columns);
+    }
+
+    /**
+     * Add constraints for inner join subselect for one of many relationships.
+     *
+     * @param string|null $column
+     * @param string|null $aggregate
+     */
+    public function addOneOfManySubQueryConstraints(Builder $query, $column = null, $aggregate = null): void
+    {
+        $query->join($this->table, $this->getQualifiedRelatedKeyName(), '=', $this->getQualifiedRelatedPivotKeyName())
+            ->addSelect([$this->foreignPivotKey, $this->morphType]);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getOneOfManySubQuerySelectColumns(): array
+    {
+        return [$this->getQualifiedForeignPivotKeyName(), $this->qualifyPivotColumn($this->morphType)];
+    }
+
+    public function addOneOfManyJoinSubQueryConstraints(JoinClause $join): void
+    {
+        $join
+            ->on($this->qualifySubSelectColumn($this->morphType), '=', $this->qualifyPivotColumn($this->morphType))
+            ->on(
+                $this->qualifySubSelectColumn($this->foreignPivotKey),
+                '=',
+                $this->qualifyPivotColumn($this->foreignPivotKey)
+            );
+    }
+
+    /**
+     * Get the value of the parent model's key.
+     *
+     * @return mixed
+     */
+    public function getParentKey()
+    {
+        return null;
+    }
+
+    /**
+     * Get the value of the model's related key.
+     *
+     * @return mixed
+     */
+    protected function getRelatedKeyFrom(Model $model)
+    {
+        return null;
+    }
+
+    /**
+     * Compare the parent key with the related key.
+     *
+     * @param mixed $parentKey
+     * @param mixed $relatedKey
+     */
+    protected function compareKeys($parentKey, $relatedKey): bool
+    {
+        return true;
     }
 }
