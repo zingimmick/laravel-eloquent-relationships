@@ -17,7 +17,7 @@ use Zing\CodingStandard\Set\RectorSetList;
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(RectorSetList::CUSTOM);
     $containerConfigurator->import(PHPUnitSetList::PHPUNIT_CODE_QUALITY);
-    $containerConfigurator->import(LevelSetList::UP_TO_PHP_72);
+    $containerConfigurator->import(LevelSetList::UP_TO_PHP_73);
 
     $parameters = $containerConfigurator->parameters();
     $parameters->set(
