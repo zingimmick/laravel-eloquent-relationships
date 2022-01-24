@@ -100,6 +100,21 @@ class BelongsToOne extends BelongsToMany implements SupportsPartialRelations
         }
     }
 
+    public function getRelationExistenceQuery(Builder $query, Builder $parentQuery, $columns = ['*']): Builder
+    {
+        if ($this->isOneOfMany()) {
+            $this->mergeOneOfManyJoinsTo($query);
+        }
+
+        return parent::getRelationExistenceQuery($query, $parentQuery, $columns);
+    }
+
+    /**
+     * Add constraints for inner join subselect for one of many relationships.
+     *
+     * @param string|null $column
+     * @param string|null $aggregate
+     */
     public function addOneOfManySubQueryConstraints(Builder $query, $column = null, $aggregate = null): void
     {
         $query->join($this->table, $this->getQualifiedRelatedKeyName(), '=', $this->getQualifiedRelatedPivotKeyName())
@@ -124,16 +139,32 @@ class BelongsToOne extends BelongsToMany implements SupportsPartialRelations
             );
     }
 
-    public function getParentKey(): void
+    /**
+     * Get the value of the parent model's key.
+     *
+     * @return mixed
+     */
+    public function getParentKey()
     {
-        
+        return null;
     }
 
-    protected function getRelatedKeyFrom(Model $model): void
+    /**
+     * Get the value of the model's related key.
+     *
+     * @return mixed
+     */
+    protected function getRelatedKeyFrom(Model $model)
     {
-        
+        return null;
     }
 
+    /**
+     * Compare the parent key with the related key.
+     *
+     * @param mixed $parentKey
+     * @param mixed $relatedKey
+     */
     protected function compareKeys($parentKey, $relatedKey): bool
     {
         return true;

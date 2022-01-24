@@ -16,6 +16,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         Option::SKIP,
         [
             \PHP_CodeSniffer\Standards\PSR1\Sniffs\Classes\ClassDeclarationSniff::class => ['*/migrations/*'],
+            \PhpCsFixer\Fixer\ReturnNotation\SimplifiedNullReturnFixer::class => [
+                __DIR__ . '/src/Relations/BelongsToOne.php',
+                __DIR__ . '/src/Relations/MorphToOne.php',
+            ],
             // Will be removed in a future major version.
             \SlevomatCodingStandard\Sniffs\TypeHints\ReturnTypeHintSniff::class,
         ]

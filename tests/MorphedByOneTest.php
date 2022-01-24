@@ -89,31 +89,20 @@ final class MorphedByOneTest extends TestCase
             ->attach($image, []);
         self::assertTrue($image->bestProduct()->exists());
         self::assertCount(1, $image->bestProduct()->get());
-        self::assertTrue($image->bestProduct()->is($product));
+        self::assertTrue($image->bestProduct()->is($product2));
         self::assertSame(1, $image->bestProduct()->count());
-        self::assertTrue($image->bestProduct()->isNot($product2));
-        self::assertTrue($image->bestProduct()->whereKey($product->getKey())->exists());
-        self::assertFalse($image->bestProduct()->whereKey($product2->getKey())->exists());
-        $this->retrievedLogins = 0;
-        Image::getEventDispatcher()->listen('eloquent.retrieved:*', function ($event, $models): void {
-            foreach ($models as $model) {
-                if (get_class($model) === Product::class) {
-                    $this->retrievedLogins++;
-                }
-            }
-        });
-        $image = Image::query()->with(['bestProduct'])->findOrFail($product->getKey());
-        $this->assertSame(1, $this->retrievedLogins);
+        self::assertTrue($image->bestProduct()->isNot($product));
     }
 
     public function testRetrievedTimes(): void
     {
         $retrievedLogins = 0;
-        Image::getEventDispatcher()->listen('eloquent.retrieved:*', function ($event, $models) use (
-            &$retrievedLogins
-        ): void {
+        Image::getEventDispatcher()->listen('eloquent.retrieved:*', function (
+            $event,
+            $models
+        ) use (&$retrievedLogins): void {
             foreach ($models as $model) {
-                if (get_class($model) === Product::class) {
+                if ($model instanceof \Zing\LaravelEloquentRelationships\Tests\Models\Product) {
                     $retrievedLogins++;
                 }
             }
@@ -137,5 +126,78 @@ final class MorphedByOneTest extends TestCase
         Image::query()->with('bestProduct')->get();
 
         $this->assertSame(2, $retrievedLogins);
+    }
+
+    public function testReceivingModel(): void
+    {
+        /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Image $image */
+        $image = Image::query()->create([
+            'url' => $this->faker->url(),
+        ]);
+        $image->bestProduct()
+            ->create([
+                'name' => $this->faker->name(),
+            ]);
+        $image->bestProduct()
+            ->create([
+                'name' => 'test',
+            ]);
+        /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Product $product */
+        $product = $image->bestProduct;
+        $this->assertNotNull($product);
+        $this->assertSame('test', $product->name);
+    }
+
+    public function testMorphType(): void
+    {
+        /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Image $image */
+        $image = Image::query()->create([
+            'url' => $this->faker->url(),
+        ]);
+        $image->bestProduct()
+            ->create([
+                'name' => $this->faker->name(),
+            ]);
+        $image->bestProduct()
+            ->create([
+                'name' => 'test',
+            ]);
+        $product = $image->bestProduct()
+            ->make([
+                'name' => $this->faker->name(),
+            ]);
+        $image->bestProduct()
+            ->updateExistingPivot($product->getKey(), [
+                'imageable_type' => 'bar',
+            ]);
+        /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Product $product */
+        $product = $image->bestProduct;
+        $this->assertNotNull($product);
+        $this->assertSame('test', $product->name);
+    }
+
+    public function testExists(): void
+    {
+        $image = Image::query()->create([
+            'url' => $this->faker->url(),
+        ]);
+        $previousProduct = $image->bestProduct()
+            ->create([
+                'name' => $this->faker->name(),
+            ]);
+        $currentProduct = $image->bestProduct()
+            ->create([
+                'name' => $this->faker->name(),
+            ]);
+
+        $exists = Image::query()->whereHas('bestProduct', function ($q) use ($previousProduct): void {
+            $q->whereKey($previousProduct->getKey());
+        })->exists();
+        $this->assertFalse($exists);
+
+        $exists = Image::query()->whereHas('bestProduct', function ($q) use ($currentProduct): void {
+            $q->whereKey($currentProduct->getKey());
+        })->exists();
+        $this->assertTrue($exists);
     }
 }
