@@ -64,4 +64,45 @@ final class MorphToOneTest extends TestCase
         ]);
         self::assertNull($product->thumbnail);
     }
+
+    public function testRetrievedTimes(): void
+    {
+        $retrievedLogins = 0;
+        Image::getEventDispatcher()->listen('eloquent.retrieved:*', function ($event, $models) use (
+            &$retrievedLogins
+        ): void {
+            foreach ($models as $model) {
+                if (get_class($model) === Image::class) {
+                    $retrievedLogins++;
+                }
+            }
+        });
+
+        $image = Product::query()->create([
+            'name' => $this->faker->name(),
+        ]);
+        $image->cover()
+            ->create([
+                'url' => $this->faker->url(),
+            ]);
+        $image->cover()
+            ->create([
+                'url' => $this->faker->url(),
+            ]);
+        $image = Product::query()->create([
+            'name' => $this->faker->name(),
+        ]);
+        $image->cover()
+            ->create([
+                'url' => $this->faker->url(),
+            ]);
+        $image->cover()
+            ->create([
+                'url' => $this->faker->url(),
+            ]);
+
+        Product::query()->with('cover')->get();
+
+        $this->assertSame(2, $retrievedLogins);
+    }
 }

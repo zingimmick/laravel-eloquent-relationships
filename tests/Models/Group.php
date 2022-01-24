@@ -31,7 +31,7 @@ class Group extends Model
 
     public function leader(): BelongsToOne
     {
-        return $this->belongsToOne(User::class)->wherePivot('status', 1)->withPivot('status');
+        return $this->belongsToOne(User::class)->wherePivot('status', 1)->ofMany()->withPivot('status');
     }
 
     public function candidate(): BelongsToOne

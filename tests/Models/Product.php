@@ -39,7 +39,7 @@ class Product extends Model
 
     public function cover(): MorphToOne
     {
-        return $this->morphToOne(Image::class, 'imageable', 'model_has_images')->withDefault([
+        return $this->morphToOne(Image::class, 'imageable', 'model_has_images')->ofMany()->withDefault([
             'url' => 'https://example.com/default.png',
         ]);
     }
