@@ -7,7 +7,7 @@ use Symplify\EasyCodingStandard\ValueObject\Option;
 use Zing\CodingStandard\Set\ECSSetList;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
-    $containerConfigurator->import(ECSSetList::PHP_72);
+    $containerConfigurator->import(ECSSetList::PHP_73);
     $containerConfigurator->import(ECSSetList::CUSTOM);
 
     $parameters = $containerConfigurator->parameters();

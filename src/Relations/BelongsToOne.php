@@ -50,7 +50,7 @@ class BelongsToOne extends BelongsToMany
         // children back to their parent using the dictionary and the keys on the
         // parent models. Then we should return these hydrated models back out.
         foreach ($models as $model) {
-            $key = $model->getAttribute($this->parentKey);
+            $key = $this->getDictionaryKey($model->getAttribute($this->parentKey));
             if (isset($dictionary[$key])) {
                 $value = $dictionary[$key];
                 $model->setRelation($relation, reset($value));
