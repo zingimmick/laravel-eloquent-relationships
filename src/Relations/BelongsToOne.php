@@ -67,7 +67,7 @@ class BelongsToOne extends BelongsToMany
      */
     public function getResults()
     {
-        if ($this->parent->{$this->parentKey} === null) {
+        if ($this->parent->getAttribute($this->parentKey) === null) {
             return $this->getDefaultFor($this->parent);
         }
 
