@@ -23,6 +23,7 @@ final class BelongsToOneTest extends TestCase
             ->attach(User::query()->create([]), [
                 'status' => 1,
             ]);
+
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Group $group */
         $group = Group::query()->with(['leader'])->findOrFail($group->getKey());
         self::assertInstanceOf(User::class, $group->leader);
@@ -76,6 +77,7 @@ final class BelongsToOneTest extends TestCase
             ->attach($group, [
                 'status' => 1,
             ]);
+
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Group $group */
         $group = Group::query()->findOrFail($group->getKey());
         self::assertSame('leader', $group->leader()->getRelationName());
@@ -104,10 +106,11 @@ final class BelongsToOneTest extends TestCase
         ) use (&$retrievedLogins): void {
             foreach ($models as $model) {
                 if ($model instanceof \Zing\LaravelEloquentRelationships\Tests\Models\User) {
-                    $retrievedLogins++;
+                    ++$retrievedLogins;
                 }
             }
         });
+
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Group $group */
         $group = Group::query()->create([
             'name' => $this->faker->name(),
@@ -151,6 +154,7 @@ final class BelongsToOneTest extends TestCase
             ->create([], [
                 'status' => 1,
             ]);
+
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\User $leader */
         $leader = $group->leader;
         $this->assertNotNull($leader);

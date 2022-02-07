@@ -23,9 +23,11 @@ final class MorphToOneTest extends TestCase
             ->attach(Image::query()->create([
                 'url' => $url,
             ]), []);
+
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Product $product */
         $product = Product::query()->with(['cover'])->findOrFail($product->getKey());
         self::assertInstanceOf(Image::class, $product->cover);
+
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Image $cover */
         $cover = $product->cover;
         self::assertSame($url, $cover->url);
@@ -40,6 +42,7 @@ final class MorphToOneTest extends TestCase
                 'url' => $url,
             ]), []);
         self::assertInstanceOf(Image::class, $product->cover);
+
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Image $cover */
         $cover = $product->cover;
         self::assertSame($url, $cover->url);
@@ -51,6 +54,7 @@ final class MorphToOneTest extends TestCase
             'name' => 'test',
         ]);
         self::assertInstanceOf(Image::class, $product->cover);
+
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Image $cover */
         $cover = $product->cover;
         self::assertSame('https://example.com/default.png', $cover->url);
@@ -74,6 +78,7 @@ final class MorphToOneTest extends TestCase
         $product = Product::query()->create([]);
         $image->bestProduct()
             ->attach($product, []);
+
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Product $product */
         $product = Product::query()->findOrFail($image->getKey());
         self::assertSame('cover', $product->cover()->getRelationName());
@@ -102,7 +107,7 @@ final class MorphToOneTest extends TestCase
         ) use (&$retrievedLogins): void {
             foreach ($models as $model) {
                 if ($model instanceof \Zing\LaravelEloquentRelationships\Tests\Models\Image) {
-                    $retrievedLogins++;
+                    ++$retrievedLogins;
                 }
             }
         });
@@ -149,6 +154,7 @@ final class MorphToOneTest extends TestCase
             ->create([
                 'url' => 'test',
             ]);
+
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Image $cover */
         $cover = $product->cover;
         $this->assertNotNull($cover);
@@ -177,6 +183,7 @@ final class MorphToOneTest extends TestCase
             ->updateExistingPivot($image->getKey(), [
                 'imageable_type' => 'bar',
             ]);
+
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Image $cover */
         $cover = $product->cover;
         $this->assertNotNull($cover);

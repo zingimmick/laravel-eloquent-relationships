@@ -28,6 +28,7 @@ final class MorphedByOneTest extends TestCase
             ->attach(Image::query()->create([
                 'url' => $url,
             ]), []);
+
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Image $image */
         $image = Image::query()->with(['bestProduct'])->findOrFail($product->getKey());
         self::assertInstanceOf(Product::class, $image->bestProduct);
@@ -43,6 +44,7 @@ final class MorphedByOneTest extends TestCase
             ->attach(Image::query()->create([
                 'url' => $url,
             ]), []);
+
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Image $image */
         $image = Image::query()->findOrFail($product->getKey());
         self::assertInstanceOf(Product::class, $image->bestProduct);
@@ -77,6 +79,7 @@ final class MorphedByOneTest extends TestCase
         ]);
         $product->images()
             ->attach($image, []);
+
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Image $image */
         $image = Image::query()->findOrFail($product->getKey());
         self::assertSame('bestProduct', $image->bestProduct()->getRelationName());
@@ -103,7 +106,7 @@ final class MorphedByOneTest extends TestCase
         ) use (&$retrievedLogins): void {
             foreach ($models as $model) {
                 if ($model instanceof \Zing\LaravelEloquentRelationships\Tests\Models\Product) {
-                    $retrievedLogins++;
+                    ++$retrievedLogins;
                 }
             }
         });
@@ -142,6 +145,7 @@ final class MorphedByOneTest extends TestCase
             ->create([
                 'name' => 'test',
             ]);
+
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Product $product */
         $product = $image->bestProduct;
         $this->assertNotNull($product);
@@ -170,6 +174,7 @@ final class MorphedByOneTest extends TestCase
             ->updateExistingPivot($product->getKey(), [
                 'imageable_type' => 'bar',
             ]);
+
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Product $product */
         $product = $image->bestProduct;
         $this->assertNotNull($product);
