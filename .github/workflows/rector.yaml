@@ -11,6 +11,7 @@ jobs:
         name: Checkout code
         uses: actions/checkout@v2.4.0
         with:
+          token: ${{ secrets.ACCESS_TOKEN }}
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           ref: ${{ github.event.pull_request.head.ref }}
 
@@ -33,3 +34,5 @@ jobs:
         with:
           add: .
           message: "Rector Rectify"
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
