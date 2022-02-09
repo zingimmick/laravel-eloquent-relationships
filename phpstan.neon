@@ -6,6 +6,7 @@ parameters:
     paths:
         - src
         - tests
+    checkGenericClassInNonGenericObjectType: false
     ignoreErrors:
         - '#Cannot access property \$pivot on (.*?)#'
         - '#Parameter \#1 \$(.*?) of function array_pop expects array, array<int, string>\|false given.#'
