@@ -128,7 +128,7 @@ final class MorphedByOneTest extends TestCase
 
         Image::query()->with('bestProduct')->get();
 
-        $this->assertSame(2, $retrievedLogins);
+        self::assertSame(2, $retrievedLogins);
     }
 
     public function testReceivingModel(): void
@@ -148,8 +148,8 @@ final class MorphedByOneTest extends TestCase
 
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Product $product */
         $product = $image->bestProduct;
-        $this->assertNotNull($product);
-        $this->assertSame('test', $product->name);
+        self::assertNotNull($product);
+        self::assertSame('test', $product->name);
     }
 
     public function testMorphType(): void
@@ -177,8 +177,8 @@ final class MorphedByOneTest extends TestCase
 
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Product $product */
         $product = $image->bestProduct;
-        $this->assertNotNull($product);
-        $this->assertSame('test', $product->name);
+        self::assertNotNull($product);
+        self::assertSame('test', $product->name);
     }
 
     public function testExists(): void
@@ -198,11 +198,11 @@ final class MorphedByOneTest extends TestCase
         $exists = Image::query()->whereHas('bestProduct', function ($q) use ($previousProduct): void {
             $q->whereKey($previousProduct->getKey());
         })->exists();
-        $this->assertFalse($exists);
+        self::assertFalse($exists);
 
         $exists = Image::query()->whereHas('bestProduct', function ($q) use ($currentProduct): void {
             $q->whereKey($currentProduct->getKey());
         })->exists();
-        $this->assertTrue($exists);
+        self::assertTrue($exists);
     }
 }

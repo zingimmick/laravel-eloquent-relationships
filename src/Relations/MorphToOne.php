@@ -20,9 +20,9 @@ use Illuminate\Database\Query\JoinClause;
  */
 class MorphToOne extends MorphToMany implements SupportsPartialRelations
 {
-    use SupportsDefaultModels;
     use CanBeOneOfMany;
     use ComparesRelatedModels;
+    use SupportsDefaultModels;
 
     /**
      * Initialize the relation on a set of models.
