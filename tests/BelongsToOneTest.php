@@ -137,7 +137,7 @@ final class BelongsToOneTest extends TestCase
 
         Group::query()->with('leader')->get();
 
-        $this->assertSame(2, $retrievedLogins);
+        self::assertSame(2, $retrievedLogins);
     }
 
     public function testReceivingModel(): void
@@ -157,8 +157,8 @@ final class BelongsToOneTest extends TestCase
 
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\User $leader */
         $leader = $group->leader;
-        $this->assertNotNull($leader);
-        $this->assertSame($user->getKey(), $leader->getKey());
+        self::assertNotNull($leader);
+        self::assertSame($user->getKey(), $leader->getKey());
     }
 
     public function testExists(): void
@@ -179,12 +179,12 @@ final class BelongsToOneTest extends TestCase
         $exists = Group::query()->whereHas('leader', function ($q) use ($previousUser): void {
             $q->whereKey($previousUser->getKey());
         })->exists();
-        $this->assertFalse($exists);
+        self::assertFalse($exists);
 
         $exists = Group::query()->whereHas('leader', function ($q) use ($currentUser): void {
             $q->whereKey($currentUser->getKey());
         })->exists();
-        $this->assertTrue($exists);
+        self::assertTrue($exists);
     }
 
     public function testIs(): void
@@ -202,8 +202,8 @@ final class BelongsToOneTest extends TestCase
                 'status' => 1,
             ]);
 
-        $this->assertFalse($group->leader()->is($previousImage));
+        self::assertFalse($group->leader()->is($previousImage));
 
-        $this->assertTrue($group->leader()->is($currentImage));
+        self::assertTrue($group->leader()->is($currentImage));
     }
 }
