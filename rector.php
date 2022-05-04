@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Rector\Core\Configuration\Option;
+use Rector\Config\RectorConfig;
 use Rector\Naming\Rector\Assign\RenameVariableToMatchMethodCallReturnTypeRector;
 use Rector\Naming\Rector\ClassMethod\RenameParamToMatchTypeRector;
 use Rector\PHPUnit\Rector\Class_\AddSeeTestAnnotationRector;
@@ -11,11 +11,10 @@ use Rector\Privatization\Rector\Class_\FinalizeClassesWithoutChildrenRector;
 use Rector\Privatization\Rector\Class_\RepeatedLiteralToClassConstantRector;
 use Rector\Privatization\Rector\MethodCall\PrivatizeLocalGetterToPropertyRector;
 use Rector\Set\ValueObject\LevelSetList;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Zing\CodingStandard\Set\RectorSetList;
-use \Rector\Config\RectorConfig;
+
 return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->sets([LevelSetList::UP_TO_PHP_73,PHPUnitSetList::PHPUNIT_CODE_QUALITY,RectorSetList::CUSTOM]);
+    $rectorConfig->sets([LevelSetList::UP_TO_PHP_73, PHPUnitSetList::PHPUNIT_CODE_QUALITY, RectorSetList::CUSTOM]);
     $rectorConfig->parallel();
     $rectorConfig->skip([
         RenameVariableToMatchMethodCallReturnTypeRector::class,
