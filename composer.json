@@ -3,6 +3,11 @@
     "description": "More eloquent relationships for Laravel",
     "keywords": ["laravel", "eloquent", "relationships"],
     "license": "MIT",
+    "homepage": "https://github.com/zingimmick/laravel-eloquent-relationships",
+    "support": {
+        "issues": "https://github.com/zingimmick/laravel-eloquent-relationships/issues",
+        "source": "https://github.com/zingimmick/laravel-eloquent-relationships"
+    },
     "authors": [
         {
             "name": "zingimmick",
