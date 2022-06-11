@@ -164,7 +164,7 @@ trait HasMoreRelationships
 
             $lastWord = array_pop($words);
 
-            $table = implode('', $words) . Str::plural($lastWord);
+            $table = implode('', $words ?: []) . Str::plural($lastWord);
         }
 
         return $this->newMorphToOne(
