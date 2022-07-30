@@ -100,10 +100,9 @@ final class MorphedByOneTest extends TestCase
     public function testRetrievedTimes(): void
     {
         $retrievedLogins = 0;
-        Image::getEventDispatcher()->listen('eloquent.retrieved:*', function (
-            $event,
-            $models
-        ) use (&$retrievedLogins): void {
+        Image::getEventDispatcher()->listen('eloquent.retrieved:*', static function ($event, $models) use (
+            &$retrievedLogins
+        ): void {
             foreach ($models as $model) {
                 if ($model instanceof \Zing\LaravelEloquentRelationships\Tests\Models\Product) {
                     ++$retrievedLogins;
@@ -195,12 +194,12 @@ final class MorphedByOneTest extends TestCase
                 'name' => $this->faker->name(),
             ]);
 
-        $exists = Image::query()->whereHas('bestProduct', function ($q) use ($previousProduct): void {
+        $exists = Image::query()->whereHas('bestProduct', static function ($q) use ($previousProduct): void {
             $q->whereKey($previousProduct->getKey());
         })->exists();
         self::assertFalse($exists);
 
-        $exists = Image::query()->whereHas('bestProduct', function ($q) use ($currentProduct): void {
+        $exists = Image::query()->whereHas('bestProduct', static function ($q) use ($currentProduct): void {
             $q->whereKey($currentProduct->getKey());
         })->exists();
         self::assertTrue($exists);
