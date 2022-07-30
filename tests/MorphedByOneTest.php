@@ -100,9 +100,10 @@ final class MorphedByOneTest extends TestCase
     public function testRetrievedTimes(): void
     {
         $retrievedLogins = 0;
-        Image::getEventDispatcher()->listen('eloquent.retrieved:*', static function ($event, $models) use (
-            &$retrievedLogins
-        ): void {
+        Image::getEventDispatcher()->listen('eloquent.retrieved:*', static function (
+            $event,
+            $models
+        ) use (&$retrievedLogins): void {
             foreach ($models as $model) {
                 if ($model instanceof \Zing\LaravelEloquentRelationships\Tests\Models\Product) {
                     ++$retrievedLogins;

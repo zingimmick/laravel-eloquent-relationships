@@ -100,9 +100,10 @@ final class BelongsToOneTest extends TestCase
     public function testRetrievedTimes(): void
     {
         $retrievedLogins = 0;
-        Group::getEventDispatcher()->listen('eloquent.retrieved:*', static function ($event, $models) use (
-            &$retrievedLogins
-        ): void {
+        Group::getEventDispatcher()->listen('eloquent.retrieved:*', static function (
+            $event,
+            $models
+        ) use (&$retrievedLogins): void {
             foreach ($models as $model) {
                 if ($model instanceof \Zing\LaravelEloquentRelationships\Tests\Models\User) {
                     ++$retrievedLogins;
