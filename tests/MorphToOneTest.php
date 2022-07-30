@@ -101,7 +101,7 @@ final class MorphToOneTest extends TestCase
     public function testRetrievedTimes(): void
     {
         $retrievedLogins = 0;
-        Image::getEventDispatcher()->listen('eloquent.retrieved:*', function (
+        Image::getEventDispatcher()->listen('eloquent.retrieved:*', static function (
             $event,
             $models
         ) use (&$retrievedLogins): void {
@@ -204,12 +204,12 @@ final class MorphToOneTest extends TestCase
                 'url' => $this->faker->url(),
             ]);
 
-        $exists = Product::query()->whereHas('cover', function ($q) use ($previousImage): void {
+        $exists = Product::query()->whereHas('cover', static function ($q) use ($previousImage): void {
             $q->whereKey($previousImage->getKey());
         })->exists();
         self::assertFalse($exists);
 
-        $exists = Product::query()->whereHas('cover', function ($q) use ($currentImage): void {
+        $exists = Product::query()->whereHas('cover', static function ($q) use ($currentImage): void {
             $q->whereKey($currentImage->getKey());
         })->exists();
         self::assertTrue($exists);

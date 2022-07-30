@@ -100,7 +100,7 @@ final class BelongsToOneTest extends TestCase
     public function testRetrievedTimes(): void
     {
         $retrievedLogins = 0;
-        Group::getEventDispatcher()->listen('eloquent.retrieved:*', function (
+        Group::getEventDispatcher()->listen('eloquent.retrieved:*', static function (
             $event,
             $models
         ) use (&$retrievedLogins): void {
@@ -176,12 +176,12 @@ final class BelongsToOneTest extends TestCase
                 'status' => 1,
             ]);
 
-        $exists = Group::query()->whereHas('leader', function ($q) use ($previousUser): void {
+        $exists = Group::query()->whereHas('leader', static function ($q) use ($previousUser): void {
             $q->whereKey($previousUser->getKey());
         })->exists();
         self::assertFalse($exists);
 
-        $exists = Group::query()->whereHas('leader', function ($q) use ($currentUser): void {
+        $exists = Group::query()->whereHas('leader', static function ($q) use ($currentUser): void {
             $q->whereKey($currentUser->getKey());
         })->exists();
         self::assertTrue($exists);

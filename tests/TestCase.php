@@ -16,7 +16,7 @@ abstract class TestCase extends BaseTestCase
 
         Schema::create(
             'groups',
-            function (Blueprint $table): void {
+            static function (Blueprint $table): void {
                 $table->bigIncrements('id');
                 $table->string('name')
                     ->default('');
@@ -26,7 +26,7 @@ abstract class TestCase extends BaseTestCase
 
         Schema::create(
             'users',
-            function (Blueprint $table): void {
+            static function (Blueprint $table): void {
                 $table->bigIncrements('id');
                 $table->string('name')
                     ->default('');
@@ -35,7 +35,7 @@ abstract class TestCase extends BaseTestCase
         );
         Schema::create(
             'group_user',
-            function (Blueprint $table): void {
+            static function (Blueprint $table): void {
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger('group_id')
                     ->index();
@@ -46,7 +46,7 @@ abstract class TestCase extends BaseTestCase
                 $table->index(['group_id', 'user_id']);
             }
         );
-        Schema::create('products', function (Blueprint $table): void {
+        Schema::create('products', static function (Blueprint $table): void {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('group_id')
                 ->nullable()
@@ -57,7 +57,7 @@ abstract class TestCase extends BaseTestCase
         });
         Schema::create(
             'images',
-            function (Blueprint $table): void {
+            static function (Blueprint $table): void {
                 $table->bigIncrements('id');
                 $table->string('url');
                 $table->timestamps();
@@ -66,13 +66,12 @@ abstract class TestCase extends BaseTestCase
 
         Schema::create(
             'model_has_images',
-            function (Blueprint $table): void {
+            static function (Blueprint $table): void {
                 $table->unsignedBigInteger('image_id');
                 $table->morphs('imageable');
                 $table->tinyInteger('priority')
                     ->default(0);
                 $table->primary(['image_id', 'imageable_id', 'imageable_type']);
-
                 $table->foreign('image_id')
                     ->references('id')
                     ->on('images')

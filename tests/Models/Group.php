@@ -39,7 +39,7 @@ class Group extends Model
         return $this->belongsToOne(User::class)
             ->withPivot('status')
             ->wherePivot('status', 0)
-            ->withDefault(function (User $user, self $group): void {
+            ->withDefault(static function (User $user, self $group): void {
                 $user->name = 'candidate leader for ' . $group->name;
             });
     }
