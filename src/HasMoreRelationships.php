@@ -18,7 +18,7 @@ trait HasMoreRelationships
      *
      * @var string[]
      */
-    public static $oneMethods = ['belongsToOne', 'morphToOne', 'morphedByOne'];
+    public static $oneMethods = ['belongsToOne', 'morphToOne', 'morphedByOne'] ;
 
     /**
      * Define a one-to-one relationship.
