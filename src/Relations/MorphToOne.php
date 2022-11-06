@@ -70,9 +70,9 @@ class MorphToOne extends MorphToMany implements SupportsPartialRelations
     /**
      * Get the results of the relationship.
      *
-     * @return \Illuminate\Database\Eloquent\Model|mixed|null
+     * @phpstan-return \Illuminate\Database\Eloquent\Model|mixed|null
      */
-    public function getResults()
+    public function getResults(): mixed
     {
         if ($this->parent->getAttribute($this->parentKey) === null) {
             return $this->getDefaultFor($this->parent);
@@ -142,31 +142,24 @@ class MorphToOne extends MorphToMany implements SupportsPartialRelations
 
     /**
      * Get the value of the parent model's key.
-     *
-     * @return mixed
      */
-    public function getParentKey()
+    public function getParentKey(): mixed
     {
         return null;
     }
 
     /**
      * Get the value of the model's related key.
-     *
-     * @return mixed
      */
-    protected function getRelatedKeyFrom(Model $model)
+    protected function getRelatedKeyFrom(Model $model): mixed
     {
         return null;
     }
 
     /**
      * Compare the parent key with the related key.
-     *
-     * @param mixed $parentKey
-     * @param mixed $relatedKey
      */
-    protected function compareKeys($parentKey, $relatedKey): bool
+    protected function compareKeys(mixed $parentKey, mixed $relatedKey): bool
     {
         return true;
     }

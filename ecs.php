@@ -6,7 +6,7 @@ use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Zing\CodingStandard\Set\ECSSetList;
 
 return static function (ECSConfig $ecsConfig): void {
-    $ecsConfig->sets([ECSSetList::PHP_73, ECSSetList::CUSTOM]);
+    $ecsConfig->sets([ECSSetList::PHP_80, ECSSetList::CUSTOM]);
     $ecsConfig->parallel();
     $ecsConfig->skip([
         \PHP_CodeSniffer\Standards\PSR1\Sniffs\Classes\ClassDeclarationSniff::class => ['*/migrations/*'],
@@ -14,8 +14,6 @@ return static function (ECSConfig $ecsConfig): void {
             __DIR__ . '/src/Relations/BelongsToOne.php',
             __DIR__ . '/src/Relations/MorphToOne.php',
         ],
-        // Will be removed in a future major version.
-        \SlevomatCodingStandard\Sniffs\TypeHints\ReturnTypeHintSniff::class,
     ]);
     $ecsConfig->paths([__DIR__ . '/src', __DIR__ . '/tests', __DIR__ . '/ecs.php', __DIR__ . '/rector.php']);
 };

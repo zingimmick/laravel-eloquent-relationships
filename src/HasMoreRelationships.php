@@ -25,25 +25,22 @@ trait HasMoreRelationships
      *
      * @phpstan-param string $related
      *
-     * @param mixed $related
      * @param string|null $table
      * @param string|null $foreignPivotKey
      * @param string|null $relatedPivotKey
      * @param string|null $parentKey
      * @param string|null $relatedKey
      * @param string|null $relation
-     *
-     * @return \Zing\LaravelEloquentRelationships\Relations\BelongsToOne
      */
     public function belongsToOne(
-        $related,
+        mixed $related,
         $table = null,
         $foreignPivotKey = null,
         $relatedPivotKey = null,
         $parentKey = null,
         $relatedKey = null,
         $relation = null
-    ) {
+    ): BelongsToOne {
         // If no relationship name was passed, we will pull backtraces to get the
         // name of the calling function. We will use that function name as the
         // title of this relation since that is a great convention to apply.
@@ -88,21 +85,16 @@ trait HasMoreRelationships
      * @phpstan-param string $parentKey
      * @phpstan-param string $relatedKey
      *
-     * @param mixed $table
-     * @param mixed $foreignPivotKey
-     * @param mixed $relatedPivotKey
-     * @param mixed $parentKey
-     * @param mixed $relatedKey
      * @param string|null $relationName
      */
     protected function newBelongsToOne(
         Builder $query,
         Model $parent,
-        $table,
-        $foreignPivotKey,
-        $relatedPivotKey,
-        $parentKey,
-        $relatedKey,
+        mixed $table,
+        mixed $foreignPivotKey,
+        mixed $relatedPivotKey,
+        mixed $parentKey,
+        mixed $relatedKey,
         $relationName = null
     ): BelongsToOne {
         return new BelongsToOne(
@@ -124,27 +116,22 @@ trait HasMoreRelationships
      * @phpstan-param string $name
      * @phpstan-param bool $inverse
      *
-     * @param mixed $related
-     * @param mixed $name
      * @param string|null $table
      * @param string|null $foreignPivotKey
      * @param string|null $relatedPivotKey
      * @param string|null $parentKey
      * @param string|null $relatedKey
-     * @param mixed $inverse
-     *
-     * @return \Zing\LaravelEloquentRelationships\Relations\MorphToOne
      */
     public function morphToOne(
-        $related,
-        $name,
+        mixed $related,
+        mixed $name,
         $table = null,
         $foreignPivotKey = null,
         $relatedPivotKey = null,
         $parentKey = null,
         $relatedKey = null,
-        $inverse = false
-    ) {
+        mixed $inverse = false
+    ): MorphToOne {
         $caller = $this->guessBelongsToOneRelation();
 
         // First, we will need to determine the foreign key and "other key" for the
@@ -191,27 +178,20 @@ trait HasMoreRelationships
      * @phpstan-param string $parentKey
      * @phpstan-param string $relatedKey
      *
-     * @param mixed $name
-     * @param mixed $table
-     * @param mixed $foreignPivotKey
-     * @param mixed $relatedPivotKey
-     * @param mixed $parentKey
-     * @param mixed $relatedKey
      * @param string|null $relationName
-     * @param mixed $inverse
      * @phpstan-param bool $inverse
      */
     protected function newMorphToOne(
         Builder $query,
         Model $parent,
-        $name,
-        $table,
-        $foreignPivotKey,
-        $relatedPivotKey,
-        $parentKey,
-        $relatedKey,
+        mixed $name,
+        mixed $table,
+        mixed $foreignPivotKey,
+        mixed $relatedPivotKey,
+        mixed $parentKey,
+        mixed $relatedKey,
         $relationName = null,
-        $inverse = false
+        mixed $inverse = false
     ): MorphToOne {
         return new MorphToOne(
             $query,
@@ -233,25 +213,21 @@ trait HasMoreRelationships
      * @phpstan-param string $related
      * @phpstan-param string $name
      *
-     * @param mixed $related
-     * @param mixed $name
      * @param string|null $table
      * @param string|null $foreignPivotKey
      * @param string|null $relatedPivotKey
      * @param string|null $parentKey
      * @param string|null $relatedKey
-     *
-     * @return \Zing\LaravelEloquentRelationships\Relations\MorphToOne
      */
     public function morphedByOne(
-        $related,
-        $name,
+        mixed $related,
+        mixed $name,
         $table = null,
         $foreignPivotKey = null,
         $relatedPivotKey = null,
         $parentKey = null,
         $relatedKey = null
-    ) {
+    ): MorphToOne {
         $foreignPivotKey = $foreignPivotKey ?: $this->getForeignKey();
 
         // For the inverse of the polymorphic one-to-one relations, we will change
@@ -277,13 +253,11 @@ trait HasMoreRelationships
     protected function guessBelongsToOneRelation(): ?string
     {
         /** @phpstan-var array{function: string}|null $caller */
-        $caller = Arr::first(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS), static function ($trace): bool {
-            return ! \in_array(
-                $trace['function'],
-                array_merge(static::$oneMethods, ['guessBelongsToOneRelation']),
-                true
-            );
-        });
+        $caller = Arr::first(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS), static fn ($trace): bool => ! \in_array(
+            $trace['function'],
+            array_merge(static::$oneMethods, ['guessBelongsToOneRelation']),
+            true
+        ));
 
         return $caller !== null ? $caller['function'] : null;
     }
