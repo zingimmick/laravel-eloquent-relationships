@@ -179,6 +179,7 @@ trait HasMoreRelationships
      * @phpstan-param string $relatedKey
      *
      * @param string|null $relationName
+     *
      * @phpstan-param bool $inverse
      */
     protected function newMorphToOne(

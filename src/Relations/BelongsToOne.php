@@ -16,6 +16,7 @@ use Illuminate\Database\Query\JoinClause;
 
 /**
  * @template TRelatedModel of \Illuminate\Database\Eloquent\Model
+ *
  * @extends \Illuminate\Database\Eloquent\Relations\BelongsToMany<TRelatedModel>
  */
 class BelongsToOne extends BelongsToMany implements SupportsPartialRelations

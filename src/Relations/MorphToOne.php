@@ -16,6 +16,7 @@ use Illuminate\Database\Query\JoinClause;
 
 /**
  * @template TRelatedModel of \Illuminate\Database\Eloquent\Model
+ *
  * @extends \Illuminate\Database\Eloquent\Relations\MorphToMany<TRelatedModel>
  */
 class MorphToOne extends MorphToMany implements SupportsPartialRelations
