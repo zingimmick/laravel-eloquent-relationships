@@ -23,7 +23,7 @@ final class MorphedByOneTest extends TestCase
     public function testEagerLoading(): void
     {
         $product = Product::query()->create([]);
-        $url = $this->faker->imageUrl();
+        $url = 'test-url';
         $product->images()
             ->attach(Image::query()->create([
                 'url' => $url,
@@ -39,7 +39,7 @@ final class MorphedByOneTest extends TestCase
     {
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Product $product */
         $product = Product::query()->create([]);
-        $url = $this->faker->imageUrl();
+        $url = 'test-url';
         $product->images()
             ->attach(Image::query()->create([
                 'url' => $url,
@@ -55,7 +55,7 @@ final class MorphedByOneTest extends TestCase
     {
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Image $product */
         $product = Image::query()->create([
-            'url' => $this->faker->imageUrl(),
+            'url' => 'test-url',
         ]);
         self::assertInstanceOf(Product::class, $product->defaultProduct);
         self::assertSame('default name', $product->defaultProduct->name);
@@ -65,7 +65,7 @@ final class MorphedByOneTest extends TestCase
     {
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Image $image */
         $image = Image::query()->create([
-            'url' => $this->faker->imageUrl(),
+            'url' => 'test-url',
         ]);
         self::assertNull($image->bestProduct);
     }
@@ -73,7 +73,7 @@ final class MorphedByOneTest extends TestCase
     public function testOfMany(): void
     {
         $product = Product::query()->create([]);
-        $url = $this->faker->imageUrl();
+        $url = 'test-url';
         $image = Image::query()->create([
             'url' => $url,
         ]);

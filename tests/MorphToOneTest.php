@@ -18,7 +18,7 @@ final class MorphToOneTest extends TestCase
     public function testEagerLoading(): void
     {
         $product = Product::query()->create([]);
-        $url = $this->faker->imageUrl();
+        $url = 'test-url';
         $product->images()
             ->attach(Image::query()->create([
                 'url' => $url,
@@ -36,7 +36,7 @@ final class MorphToOneTest extends TestCase
     public function testLazyLoading(): void
     {
         $product = Product::query()->create([]);
-        $url = $this->faker->imageUrl();
+        $url = 'test-url';
         $product->images()
             ->attach(Image::query()->create([
                 'url' => $url,
@@ -73,7 +73,7 @@ final class MorphToOneTest extends TestCase
     {
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Image $image */
         $image = Image::query()->create([
-            'url' => $this->faker->imageUrl(),
+            'url' => 'test-url',
         ]);
         $product = Product::query()->create([]);
         $image->bestProduct()
@@ -87,7 +87,7 @@ final class MorphToOneTest extends TestCase
         self::assertSame(1, $product->cover()->count());
         self::assertTrue($product->cover()->is($image));
         $image2 = Image::query()->create([
-            'url' => $this->faker->imageUrl(),
+            'url' => 'test-url',
         ]);
         $image2->bestProduct()
             ->attach($product, []);
