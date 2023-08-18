@@ -26,8 +26,8 @@ final class BelongsToOneTest extends TestCase
 
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Group $group */
         $group = Group::query()->with(['leader'])->findOrFail($group->getKey());
-        self::assertInstanceOf(User::class, $group->leader);
-        self::assertSame(1, (int) $group->leader->pivot->status);
+        $this->assertInstanceOf(User::class, $group->leader);
+        $this->assertSame(1, (int) $group->leader->pivot->status);
     }
 
     public function testLazyLoading(): void
@@ -37,8 +37,8 @@ final class BelongsToOneTest extends TestCase
             ->attach(User::query()->create([]), [
                 'status' => 1,
             ]);
-        self::assertInstanceOf(User::class, $group->leader);
-        self::assertSame(1, (int) $group->leader->pivot->status);
+        $this->assertInstanceOf(User::class, $group->leader);
+        $this->assertSame(1, (int) $group->leader->pivot->status);
     }
 
     public function testWithDefault(): void
@@ -50,8 +50,8 @@ final class BelongsToOneTest extends TestCase
             ->attach(User::query()->create([]), [
                 'status' => 1,
             ]);
-        self::assertInstanceOf(User::class, $group->candidate);
-        self::assertSame('candidate leader for test', $group->candidate->name);
+        $this->assertInstanceOf(User::class, $group->candidate);
+        $this->assertSame('candidate leader for test', $group->candidate->name);
     }
 
     public function testWithoutDefault(): void
@@ -60,13 +60,13 @@ final class BelongsToOneTest extends TestCase
         $group = Group::query()->create([
             'name' => 'test',
         ]);
-        self::assertNull($group->leader);
+        $this->assertNull($group->leader);
     }
 
     public function testGetResults(): void
     {
         $product = Product::query()->create([]);
-        self::assertNull($product->leader);
+        $this->assertNull($product->leader);
     }
 
     public function testOfMany(): void
@@ -80,21 +80,21 @@ final class BelongsToOneTest extends TestCase
 
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Group $group */
         $group = Group::query()->findOrFail($group->getKey());
-        self::assertSame('leader', $group->leader()->getRelationName());
-        self::assertTrue($group->leader()->exists());
-        self::assertCount(1, $group->leader()->get());
-        self::assertSame(1, $group->leader()->count());
-        self::assertTrue($group->leader()->is($user));
+        $this->assertSame('leader', $group->leader()->getRelationName());
+        $this->assertTrue($group->leader()->exists());
+        $this->assertCount(1, $group->leader()->get());
+        $this->assertSame(1, $group->leader()->count());
+        $this->assertTrue($group->leader()->is($user));
         $user2 = User::query()->create([]);
         $group->leader()
             ->attach($user2, [
                 'status' => 1,
             ]);
-        self::assertTrue($group->leader()->exists());
-        self::assertCount(1, $group->leader()->get());
-        self::assertTrue($group->leader()->is($user2));
-        self::assertSame(1, $group->leader()->count());
-        self::assertTrue($group->leader()->isNot($user));
+        $this->assertTrue($group->leader()->exists());
+        $this->assertCount(1, $group->leader()->get());
+        $this->assertTrue($group->leader()->is($user2));
+        $this->assertSame(1, $group->leader()->count());
+        $this->assertTrue($group->leader()->isNot($user));
     }
 
     public function testRetrievedTimes(): void
@@ -137,7 +137,7 @@ final class BelongsToOneTest extends TestCase
 
         Group::query()->with('leader')->get();
 
-        self::assertSame(2, $retrievedLogins);
+        $this->assertSame(2, $retrievedLogins);
     }
 
     public function testReceivingModel(): void
@@ -157,8 +157,8 @@ final class BelongsToOneTest extends TestCase
 
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\User $leader */
         $leader = $group->leader;
-        self::assertNotNull($leader);
-        self::assertSame($user->getKey(), $leader->getKey());
+        $this->assertNotNull($leader);
+        $this->assertSame($user->getKey(), $leader->getKey());
     }
 
     public function testExists(): void
@@ -179,12 +179,12 @@ final class BelongsToOneTest extends TestCase
         $exists = Group::query()->whereHas('leader', static function ($q) use ($previousUser): void {
             $q->whereKey($previousUser->getKey());
         })->exists();
-        self::assertFalse($exists);
+        $this->assertFalse($exists);
 
         $exists = Group::query()->whereHas('leader', static function ($q) use ($currentUser): void {
             $q->whereKey($currentUser->getKey());
         })->exists();
-        self::assertTrue($exists);
+        $this->assertTrue($exists);
     }
 
     public function testIs(): void
@@ -202,8 +202,8 @@ final class BelongsToOneTest extends TestCase
                 'status' => 1,
             ]);
 
-        self::assertFalse($group->leader()->is($previousImage));
+        $this->assertFalse($group->leader()->is($previousImage));
 
-        self::assertTrue($group->leader()->is($currentImage));
+        $this->assertTrue($group->leader()->is($currentImage));
     }
 }

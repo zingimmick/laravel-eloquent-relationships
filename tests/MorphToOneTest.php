@@ -26,11 +26,11 @@ final class MorphToOneTest extends TestCase
 
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Product $product */
         $product = Product::query()->with(['cover'])->findOrFail($product->getKey());
-        self::assertInstanceOf(Image::class, $product->cover);
+        $this->assertInstanceOf(Image::class, $product->cover);
 
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Image $cover */
         $cover = $product->cover;
-        self::assertSame($url, $cover->url);
+        $this->assertSame($url, $cover->url);
     }
 
     public function testLazyLoading(): void
@@ -41,11 +41,11 @@ final class MorphToOneTest extends TestCase
             ->attach(Image::query()->create([
                 'url' => $url,
             ]), []);
-        self::assertInstanceOf(Image::class, $product->cover);
+        $this->assertInstanceOf(Image::class, $product->cover);
 
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Image $cover */
         $cover = $product->cover;
-        self::assertSame($url, $cover->url);
+        $this->assertSame($url, $cover->url);
     }
 
     public function testWithDefault(): void
@@ -53,11 +53,11 @@ final class MorphToOneTest extends TestCase
         $product = Product::query()->create([
             'name' => 'test',
         ]);
-        self::assertInstanceOf(Image::class, $product->cover);
+        $this->assertInstanceOf(Image::class, $product->cover);
 
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Image $cover */
         $cover = $product->cover;
-        self::assertSame('https://example.com/default.png', $cover->url);
+        $this->assertSame('https://example.com/default.png', $cover->url);
     }
 
     public function testWithoutDefault(): void
@@ -66,7 +66,7 @@ final class MorphToOneTest extends TestCase
         $product = Product::query()->create([
             'name' => 'test',
         ]);
-        self::assertNull($product->thumbnail);
+        $this->assertNull($product->thumbnail);
     }
 
     public function testOfMany(): void
@@ -81,21 +81,21 @@ final class MorphToOneTest extends TestCase
 
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Product $product */
         $product = Product::query()->findOrFail($image->getKey());
-        self::assertSame('cover', $product->cover()->getRelationName());
-        self::assertTrue($product->cover()->exists());
-        self::assertCount(1, $product->cover()->get());
-        self::assertSame(1, $product->cover()->count());
-        self::assertTrue($product->cover()->is($image));
+        $this->assertSame('cover', $product->cover()->getRelationName());
+        $this->assertTrue($product->cover()->exists());
+        $this->assertCount(1, $product->cover()->get());
+        $this->assertSame(1, $product->cover()->count());
+        $this->assertTrue($product->cover()->is($image));
         $image2 = Image::query()->create([
             'url' => 'test-url',
         ]);
         $image2->bestProduct()
             ->attach($product, []);
-        self::assertTrue($product->cover()->exists());
-        self::assertCount(1, $product->cover()->get());
-        self::assertTrue($product->cover()->is($image2));
-        self::assertSame(1, $product->cover()->count());
-        self::assertTrue($product->cover()->isNot($image));
+        $this->assertTrue($product->cover()->exists());
+        $this->assertCount(1, $product->cover()->get());
+        $this->assertTrue($product->cover()->is($image2));
+        $this->assertSame(1, $product->cover()->count());
+        $this->assertTrue($product->cover()->isNot($image));
     }
 
     public function testRetrievedTimes(): void
@@ -137,7 +137,7 @@ final class MorphToOneTest extends TestCase
 
         Product::query()->with('cover')->get();
 
-        self::assertSame(2, $retrievedLogins);
+        $this->assertSame(2, $retrievedLogins);
     }
 
     public function testReceivingModel(): void
@@ -157,8 +157,8 @@ final class MorphToOneTest extends TestCase
 
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Image $cover */
         $cover = $product->cover;
-        self::assertNotNull($cover);
-        self::assertSame('test', $cover->url);
+        $this->assertNotNull($cover);
+        $this->assertSame('test', $cover->url);
     }
 
     public function testMorphType(): void
@@ -186,8 +186,8 @@ final class MorphToOneTest extends TestCase
 
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Image $cover */
         $cover = $product->cover;
-        self::assertNotNull($cover);
-        self::assertSame('test', $cover->url);
+        $this->assertNotNull($cover);
+        $this->assertSame('test', $cover->url);
     }
 
     public function testExists(): void
@@ -207,18 +207,18 @@ final class MorphToOneTest extends TestCase
         $exists = Product::query()->whereHas('cover', static function ($q) use ($previousImage): void {
             $q->whereKey($previousImage->getKey());
         })->exists();
-        self::assertFalse($exists);
+        $this->assertFalse($exists);
 
         $exists = Product::query()->whereHas('cover', static function ($q) use ($currentImage): void {
             $q->whereKey($currentImage->getKey());
         })->exists();
-        self::assertTrue($exists);
+        $this->assertTrue($exists);
     }
 
     public function testGetResults(): void
     {
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Image $cover */
         $cover = (new Product())->cover;
-        self::assertSame('https://example.com/default.png', $cover->url);
+        $this->assertSame('https://example.com/default.png', $cover->url);
     }
 }

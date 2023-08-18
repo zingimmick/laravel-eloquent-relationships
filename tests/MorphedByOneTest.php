@@ -31,8 +31,8 @@ final class MorphedByOneTest extends TestCase
 
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Image $image */
         $image = Image::query()->with(['bestProduct'])->findOrFail($product->getKey());
-        self::assertInstanceOf(Product::class, $image->bestProduct);
-        self::assertTrue($product->is($image->bestProduct));
+        $this->assertInstanceOf(Product::class, $image->bestProduct);
+        $this->assertTrue($product->is($image->bestProduct));
     }
 
     public function testLazyLoading(): void
@@ -47,8 +47,8 @@ final class MorphedByOneTest extends TestCase
 
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Image $image */
         $image = Image::query()->findOrFail($product->getKey());
-        self::assertInstanceOf(Product::class, $image->bestProduct);
-        self::assertTrue($product->is($image->bestProduct));
+        $this->assertInstanceOf(Product::class, $image->bestProduct);
+        $this->assertTrue($product->is($image->bestProduct));
     }
 
     public function testWithDefault(): void
@@ -57,8 +57,8 @@ final class MorphedByOneTest extends TestCase
         $product = Image::query()->create([
             'url' => 'test-url',
         ]);
-        self::assertInstanceOf(Product::class, $product->defaultProduct);
-        self::assertSame('default name', $product->defaultProduct->name);
+        $this->assertInstanceOf(Product::class, $product->defaultProduct);
+        $this->assertSame('default name', $product->defaultProduct->name);
     }
 
     public function testWithoutDefault(): void
@@ -67,7 +67,7 @@ final class MorphedByOneTest extends TestCase
         $image = Image::query()->create([
             'url' => 'test-url',
         ]);
-        self::assertNull($image->bestProduct);
+        $this->assertNull($image->bestProduct);
     }
 
     public function testOfMany(): void
@@ -82,19 +82,19 @@ final class MorphedByOneTest extends TestCase
 
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Image $image */
         $image = Image::query()->findOrFail($product->getKey());
-        self::assertSame('bestProduct', $image->bestProduct()->getRelationName());
-        self::assertTrue($image->bestProduct()->exists());
-        self::assertCount(1, $image->bestProduct()->get());
-        self::assertSame(1, $image->bestProduct()->count());
-        self::assertTrue($image->bestProduct()->is($product));
+        $this->assertSame('bestProduct', $image->bestProduct()->getRelationName());
+        $this->assertTrue($image->bestProduct()->exists());
+        $this->assertCount(1, $image->bestProduct()->get());
+        $this->assertSame(1, $image->bestProduct()->count());
+        $this->assertTrue($image->bestProduct()->is($product));
         $product2 = Product::query()->create([]);
         $product2->images()
             ->attach($image, []);
-        self::assertTrue($image->bestProduct()->exists());
-        self::assertCount(1, $image->bestProduct()->get());
-        self::assertTrue($image->bestProduct()->is($product2));
-        self::assertSame(1, $image->bestProduct()->count());
-        self::assertTrue($image->bestProduct()->isNot($product));
+        $this->assertTrue($image->bestProduct()->exists());
+        $this->assertCount(1, $image->bestProduct()->get());
+        $this->assertTrue($image->bestProduct()->is($product2));
+        $this->assertSame(1, $image->bestProduct()->count());
+        $this->assertTrue($image->bestProduct()->isNot($product));
     }
 
     public function testRetrievedTimes(): void
@@ -128,7 +128,7 @@ final class MorphedByOneTest extends TestCase
 
         Image::query()->with('bestProduct')->get();
 
-        self::assertSame(2, $retrievedLogins);
+        $this->assertSame(2, $retrievedLogins);
     }
 
     public function testReceivingModel(): void
@@ -148,8 +148,8 @@ final class MorphedByOneTest extends TestCase
 
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Product $product */
         $product = $image->bestProduct;
-        self::assertNotNull($product);
-        self::assertSame('test', $product->name);
+        $this->assertNotNull($product);
+        $this->assertSame('test', $product->name);
     }
 
     public function testMorphType(): void
@@ -177,8 +177,8 @@ final class MorphedByOneTest extends TestCase
 
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Product $product */
         $product = $image->bestProduct;
-        self::assertNotNull($product);
-        self::assertSame('test', $product->name);
+        $this->assertNotNull($product);
+        $this->assertSame('test', $product->name);
     }
 
     public function testExists(): void
@@ -198,11 +198,11 @@ final class MorphedByOneTest extends TestCase
         $exists = Image::query()->whereHas('bestProduct', static function ($q) use ($previousProduct): void {
             $q->whereKey($previousProduct->getKey());
         })->exists();
-        self::assertFalse($exists);
+        $this->assertFalse($exists);
 
         $exists = Image::query()->whereHas('bestProduct', static function ($q) use ($currentProduct): void {
             $q->whereKey($currentProduct->getKey());
         })->exists();
-        self::assertTrue($exists);
+        $this->assertTrue($exists);
     }
 }
