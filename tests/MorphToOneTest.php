@@ -106,7 +106,7 @@ final class MorphToOneTest extends TestCase
             $models
         ) use (&$retrievedLogins): void {
             foreach ($models as $model) {
-                if ($model instanceof \Zing\LaravelEloquentRelationships\Tests\Models\Image) {
+                if ($model instanceof Image) {
                     ++$retrievedLogins;
                 }
             }

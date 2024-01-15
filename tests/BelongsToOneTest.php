@@ -105,7 +105,7 @@ final class BelongsToOneTest extends TestCase
             $models
         ) use (&$retrievedLogins): void {
             foreach ($models as $model) {
-                if ($model instanceof \Zing\LaravelEloquentRelationships\Tests\Models\User) {
+                if ($model instanceof User) {
                     ++$retrievedLogins;
                 }
             }

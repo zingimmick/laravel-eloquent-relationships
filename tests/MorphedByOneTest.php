@@ -105,7 +105,7 @@ final class MorphedByOneTest extends TestCase
             $models
         ) use (&$retrievedLogins): void {
             foreach ($models as $model) {
-                if ($model instanceof \Zing\LaravelEloquentRelationships\Tests\Models\Product) {
+                if ($model instanceof Product) {
                     ++$retrievedLogins;
                 }
             }
