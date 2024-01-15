@@ -20,7 +20,7 @@ final class MorphedByOneTest extends TestCase
      */
     public $retrievedLogins;
 
-    public function  testEagerLoading(): void
+    public function testEagerLoading(): void
     {
         $product = Product::query()->create([]);
         $url = 'test-url';
