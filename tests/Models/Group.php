@@ -19,9 +19,6 @@ class Group extends Model
 {
     use HasMoreRelationships;
 
-    /**
-     * @var string[]
-     */
     protected $fillable = ['name'];
 
     public function members(): BelongsToMany
