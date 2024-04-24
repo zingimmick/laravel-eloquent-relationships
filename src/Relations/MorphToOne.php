@@ -123,7 +123,7 @@ class MorphToOne extends MorphToMany implements SupportsPartialRelations
     }
 
     /**
-     * @return string[]
+     * @return array<\Illuminate\Contracts\Database\Query\Expression|string>
      */
     public function getOneOfManySubQuerySelectColumns(): array
     {
