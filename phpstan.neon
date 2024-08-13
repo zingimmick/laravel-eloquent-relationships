@@ -6,7 +6,7 @@ parameters:
     paths:
         - src
         - tests
-    checkGenericClassInNonGenericObjectType: false
     ignoreErrors:
+        - identifier: missingType.generics
         - '#Access to an undefined property (.*?)::\$pivot#'
         - '#Parameter \#1 \$(.*?) of function array_pop expects array, array<int, string>\|false given.#'
