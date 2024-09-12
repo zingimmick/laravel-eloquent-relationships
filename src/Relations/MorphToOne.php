@@ -94,6 +94,7 @@ class MorphToOne extends MorphToMany implements SupportsPartialRelations
     {
         if (! $this->isOneOfMany()) {
             parent::addConstraints();
+            return;
         }
 
         if (static::$constraints) {
