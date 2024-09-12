@@ -94,6 +94,7 @@ class BelongsToOne extends BelongsToMany implements SupportsPartialRelations
     {
         if (! $this->isOneOfMany()) {
             parent::addConstraints();
+
             return;
         }
 
