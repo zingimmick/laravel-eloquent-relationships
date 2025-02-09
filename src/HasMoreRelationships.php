@@ -23,7 +23,8 @@ trait HasMoreRelationships
     /**
      * Define a one-to-one relationship.
      *
-     * @phpstan-param string $related
+     * @template TRelatedModel of \Illuminate\Database\Eloquent\Model
+     * @phpstan-param class-string<TRelatedModel> $related
      *
      * @param string|null $table
      * @param string|null $foreignPivotKey
@@ -112,7 +113,8 @@ trait HasMoreRelationships
     /**
      * Define a polymorphic one-to-one relationship.
      *
-     * @phpstan-param string $related
+     * @template TRelatedModel of \Illuminate\Database\Eloquent\Model
+     * @phpstan-param class-string<TRelatedModel> $related
      * @phpstan-param string $name
      * @phpstan-param bool $inverse
      *
@@ -211,7 +213,8 @@ trait HasMoreRelationships
     /**
      * Define a polymorphic, inverse one-to-one relationship.
      *
-     * @phpstan-param string $related
+     * @template TRelatedModel of \Illuminate\Database\Eloquent\Model
+     * @phpstan-param class-string<TRelatedModel> $related
      * @phpstan-param string $name
      *
      * @param string|null $table

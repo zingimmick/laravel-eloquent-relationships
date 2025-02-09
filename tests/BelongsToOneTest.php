@@ -155,7 +155,7 @@ final class BelongsToOneTest extends TestCase
                 'status' => 1,
             ]);
 
-        /** @var \Zing\LaravelEloquentRelationships\Tests\Models\User $leader */
+        /** @var \Zing\LaravelEloquentRelationships\Tests\Models\User|null $leader */
         $leader = $group->leader;
         $this->assertNotNull($leader);
         $this->assertSame($user->getKey(), $leader->getKey());

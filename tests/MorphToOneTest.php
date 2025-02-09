@@ -155,7 +155,7 @@ final class MorphToOneTest extends TestCase
                 'url' => 'test',
             ]);
 
-        /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Image $cover */
+        /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Image|null $cover */
         $cover = $product->cover;
         $this->assertNotNull($cover);
         $this->assertSame('test', $cover->url);
@@ -184,7 +184,7 @@ final class MorphToOneTest extends TestCase
                 'imageable_type' => 'bar',
             ]);
 
-        /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Image $cover */
+        /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Image|null $cover */
         $cover = $product->cover;
         $this->assertNotNull($cover);
         $this->assertSame('test', $cover->url);
