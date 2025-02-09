@@ -24,6 +24,7 @@ trait HasMoreRelationships
      * Define a one-to-one relationship.
      *
      * @template TRelatedModel of \Illuminate\Database\Eloquent\Model
+     *
      * @phpstan-param class-string<TRelatedModel> $related
      *
      * @param string|null $table
@@ -114,6 +115,7 @@ trait HasMoreRelationships
      * Define a polymorphic one-to-one relationship.
      *
      * @template TRelatedModel of \Illuminate\Database\Eloquent\Model
+     *
      * @phpstan-param class-string<TRelatedModel> $related
      * @phpstan-param string $name
      * @phpstan-param bool $inverse
@@ -214,6 +216,7 @@ trait HasMoreRelationships
      * Define a polymorphic, inverse one-to-one relationship.
      *
      * @template TRelatedModel of \Illuminate\Database\Eloquent\Model
+     *
      * @phpstan-param class-string<TRelatedModel> $related
      * @phpstan-param string $name
      *

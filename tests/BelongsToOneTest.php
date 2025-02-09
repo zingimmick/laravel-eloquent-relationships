@@ -60,13 +60,13 @@ final class BelongsToOneTest extends TestCase
         $group = Group::query()->create([
             'name' => 'test',
         ]);
-        $this->assertNull($group->leader);
+        $this->assertNotInstanceOf(User::class, $group->leader);
     }
 
     public function testGetResults(): void
     {
         $product = Product::query()->create([]);
-        $this->assertNull($product->leader);
+        $this->assertNotInstanceOf(User::class, $product->leader);
     }
 
     public function testOfMany(): void
@@ -157,7 +157,7 @@ final class BelongsToOneTest extends TestCase
 
         /** @var \Zing\LaravelEloquentRelationships\Tests\Models\User|null $leader */
         $leader = $group->leader;
-        $this->assertNotNull($leader);
+        $this->assertInstanceOf(User::class, $leader);
         $this->assertSame($user->getKey(), $leader->getKey());
     }
 
