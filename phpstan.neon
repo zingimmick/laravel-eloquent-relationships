@@ -9,5 +9,5 @@ parameters:
     ignoreErrors:
         - identifier: missingType.generics
         - '#Access to an undefined property (.*?)::\$pivot#'
-        - '#Parameter \#1 \$(.*?) of function array_pop expects array, array<int, string>\|false given.#'
+        - '#Parameter \#1 \$array of function array_pop expects array, list<string>\|false given.#'
         - '#Cannot call method listen\(\) on Illuminate\\Contracts\\Events\\Dispatcher\|null.#'

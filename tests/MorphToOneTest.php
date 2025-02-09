@@ -66,7 +66,7 @@ final class MorphToOneTest extends TestCase
         $product = Product::query()->create([
             'name' => 'test',
         ]);
-        $this->assertNull($product->thumbnail);
+        $this->assertNotInstanceOf(Image::class, $product->thumbnail);
     }
 
     public function testOfMany(): void
@@ -155,9 +155,9 @@ final class MorphToOneTest extends TestCase
                 'url' => 'test',
             ]);
 
-        /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Image $cover */
+        /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Image|null $cover */
         $cover = $product->cover;
-        $this->assertNotNull($cover);
+        $this->assertInstanceOf(Image::class, $cover);
         $this->assertSame('test', $cover->url);
     }
 
@@ -184,9 +184,9 @@ final class MorphToOneTest extends TestCase
                 'imageable_type' => 'bar',
             ]);
 
-        /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Image $cover */
+        /** @var \Zing\LaravelEloquentRelationships\Tests\Models\Image|null $cover */
         $cover = $product->cover;
-        $this->assertNotNull($cover);
+        $this->assertInstanceOf(Image::class, $cover);
         $this->assertSame('test', $cover->url);
     }
 
