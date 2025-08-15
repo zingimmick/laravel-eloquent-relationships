@@ -18,14 +18,12 @@ trait HasMoreRelationships
      *
      * @var string[]
      */
-    public static $oneMethods = ['belongsToOne', 'morphToOne', 'morphedByOne']; 
+    public static $oneMethods = ['belongsToOne', 'morphToOne', 'morphedByOne'];
 
     /**
      * Define a one-to-one relationship.
      *
      * @template TRelatedModel of \Illuminate\Database\Eloquent\Model
-     *
-     * @phpstan-param class-string<TRelatedModel> $related
      *
      * @param string|null $table
      * @param string|null $foreignPivotKey
@@ -33,6 +31,8 @@ trait HasMoreRelationships
      * @param string|null $parentKey
      * @param string|null $relatedKey
      * @param string|null $relation
+     *
+     * @phpstan-param class-string<TRelatedModel> $related
      */
     public function belongsToOne(
         mixed $related,
@@ -81,13 +81,13 @@ trait HasMoreRelationships
     /**
      * Instantiate a new BelongsToOne relationship.
      *
+     * @param string|null $relationName
+     *
      * @phpstan-param string $table
      * @phpstan-param string $foreignPivotKey
      * @phpstan-param string $relatedPivotKey
      * @phpstan-param string $parentKey
      * @phpstan-param string $relatedKey
-     *
-     * @param string|null $relationName
      */
     protected function newBelongsToOne(
         Builder $query,
@@ -116,15 +116,15 @@ trait HasMoreRelationships
      *
      * @template TRelatedModel of \Illuminate\Database\Eloquent\Model
      *
-     * @phpstan-param class-string<TRelatedModel> $related
-     * @phpstan-param string $name
-     * @phpstan-param bool $inverse
-     *
      * @param string|null $table
      * @param string|null $foreignPivotKey
      * @param string|null $relatedPivotKey
      * @param string|null $parentKey
      * @param string|null $relatedKey
+     *
+     * @phpstan-param class-string<TRelatedModel> $related
+     * @phpstan-param string $name
+     * @phpstan-param bool $inverse
      */
     public function morphToOne(
         mixed $related,
@@ -175,15 +175,14 @@ trait HasMoreRelationships
     /**
      * Instantiate a new MorphToOne relationship.
      *
+     * @param string|null $relationName
+     *
      * @phpstan-param string $name
      * @phpstan-param string $table
      * @phpstan-param string $foreignPivotKey
      * @phpstan-param string $relatedPivotKey
      * @phpstan-param string $parentKey
      * @phpstan-param string $relatedKey
-     *
-     * @param string|null $relationName
-     *
      * @phpstan-param bool $inverse
      */
     protected function newMorphToOne(
@@ -217,14 +216,14 @@ trait HasMoreRelationships
      *
      * @template TRelatedModel of \Illuminate\Database\Eloquent\Model
      *
-     * @phpstan-param class-string<TRelatedModel> $related
-     * @phpstan-param string $name
-     *
      * @param string|null $table
      * @param string|null $foreignPivotKey
      * @param string|null $relatedPivotKey
      * @param string|null $parentKey
      * @param string|null $relatedKey
+     *
+     * @phpstan-param class-string<TRelatedModel> $related
+     * @phpstan-param string $name
      */
     public function morphedByOne(
         mixed $related,
