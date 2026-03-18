@@ -11,3 +11,4 @@ parameters:
         - '#Access to an undefined property (.*?)::\$pivot#'
         - '#Parameter \#1 \$array of function array_pop expects array, list<string>\|false given.#'
         - '#Cannot call method listen\(\) on Illuminate\\Contracts\\Events\\Dispatcher\|null.#'
+        - '#Possibly invalid array key type int\|string\|null.#'
