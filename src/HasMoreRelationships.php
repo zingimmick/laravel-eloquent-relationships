@@ -46,9 +46,7 @@ trait HasMoreRelationships
         // If no relationship name was passed, we will pull backtraces to get the
         // name of the calling function. We will use that function name as the
         // title of this relation since that is a great convention to apply.
-        if ($relation === null) {
-            $relation = $this->guessBelongsToOneRelation();
-        }
+        $relation ??= $this->guessBelongsToOneRelation();
 
         // First, we'll need to determine the foreign key and "other key" for the
         // relationship. Once we have determined the keys we'll make the query
@@ -62,9 +60,7 @@ trait HasMoreRelationships
         // If no table name was provided, we can guess it by concatenating the two
         // models using underscores in alphabetical order. The two model names
         // are transformed to snake case from their default CamelCase also.
-        if ($table === null){
-            $table = $this->joiningTable($related, $instance);
-        }
+        $table ??= $this->joiningTable($related, $instance);
 
         return $this->newBelongsToOne(
             $instance->newQuery(),
