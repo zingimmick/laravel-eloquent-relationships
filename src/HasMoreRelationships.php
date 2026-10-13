@@ -62,7 +62,7 @@ trait HasMoreRelationships
         // If no table name was provided, we can guess it by concatenating the two
         // models using underscores in alphabetical order. The two model names
         // are transformed to snake case from their default CamelCase also.
-        if ($table === null) {
+        if ($table === null){
             $table = $this->joiningTable($related, $instance);
         }
 
